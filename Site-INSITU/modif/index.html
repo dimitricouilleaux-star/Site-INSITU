@@ -484,169 +484,104 @@
     });
   }
 </script>
-<script>
-  async function chargerProjets() {
-    // Liste des identifiants de projets enregistrés
-    const listeProjets = ['test-x2', '12592']; 
-    
-    for (const id of listeProjets) {
-      try {
-        const response = await fetch(`./_projets/${id}.json`);
-        if (!response.ok) continue;
-        const data = await response.json();
-
-        // 1. Insertion de la carte dans #projets
-        const carteHTML = `
-          <a href="#${data.id}" class="carte">
-            <img src="${data.image}" alt="${data.title}">
-            <h3>${data.title}</h3>
-          </a>`;
-        document.querySelector('#projets')?.insertAdjacentHTML('beforeend', carteHTML);
-
-        // 2. Insertion de la section fiche
-        const ficheHTML = `
-          <section class="fiche" id="${data.id}">
-            <h2>${data.title}</h2>
-            <p class="infos">${data.infos}</p>
-            <p class="intro">${data.intro}</p>
-          </section>`;
-        document.body.insertAdjacentHTML('beforeend', ficheHTML);
-      } catch (e) {
-        console.error("Erreur de chargement du projet :", id, e);
-      }
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', chargerProjets);
-</script>
 
 <script>
-  async function chargerProjetsCMS() {
-    try {
-      const response = await fetch('./assets/projets.json');
-      if (!response.ok) return;
+async function chargerEtInjecterProjets() {
+  const grille = document.querySelector('#projets .grille');
+  if (!grille) return;
 
-      const data = await response.json();
-      const projets = data.projets || [];
-      const grille = document.querySelector('#projets .grille');
+  try {
+    // 1. Récupération du fichier global des projets ou de la liste des projets
+    const response = await fetch('./assets/projets.json');
+    if (!response.ok) return;
 
-      if (!grille) return;
+    const data = await response.json();
+    let projets = data.projets || [];
 
-      // Injection de chaque carte créée depuis l'admin
-      projets.forEach(projet => {
-        const carteHTML = `
-          <button class="carte revele" 
-                  data-projet="${projet.id}" 
-                  style="--fond:${projet.couleur_fond};--accent:${projet.couleur_accent}" 
-                  data-curseur="${projet.couleur_accent}" 
-                  aria-label="Voir le projet ${projet.title}">
-            <div class="media">
-              <div class="br-couv">
-                <img src="${projet.image}" alt="${projet.title}">
-              </div>
-              <span class="pastille">${projet.pastille}</span>
+    // 2. Tri par date : du plus récent au plus ancien
+    projets.sort((a, b) => new Date(b.date || '2026-01-01') - new Date(a.date || '2026-01-01'));
+
+    // 3. Injection de chaque projet au DÉBUT de la grille (position 1, à gauche)
+    projets.forEach(p => {
+      const c = p.couleurs || {};
+      const fond = c.fond || '#0F1417';
+      const texte = c.texte || '#EEEEF0';
+      const accent = c.accent || '#53E6D4';
+      const accent2 = c.accent2 || '#6045F4';
+      const cadre = c.cadre || '#161D21';
+
+      // --- HTML DE LA CARTE ---
+      const carteHTML = `
+        <button class="carte revele" 
+                data-projet="${p.id}" 
+                style="--fond:${fond};--accent:${accent2}" 
+                data-curseur="${accent2}" 
+                aria-label="Voir le projet ${p.title}">
+          <div class="media">
+            <div class="br-couv">
+              <img src="${p.image_cover}" alt="${p.title}">
             </div>
-            <div class="legende">
-              <h3>${projet.title}</h3><span class="annee">${projet.annee}</span>
-              <span class="tags">${projet.tags} <span class="fleche">→</span></span>
-            </div>
-          </button>
-        `;
-        grille.insertAdjacentHTML('beforeend', carteHTML);
-      });
+            <span class="pastille">${p.pastille || 'Projet client'}</span>
+          </div>
+          <div class="legende">
+            <h3>${p.title}</h3><span class="annee">${p.annee || '2026'}</span>
+            <span class="tags">${p.tags || ''} <span class="fleche">→</span></span>
+          </div>
+        </button>`;
 
-      // Si tu as un script JS qui gère le clic sur les fiches ou les animations au survol :
-      if (typeof initialiserEvenementsProjets === 'function') {
-        initialiserEvenementsProjets();
-      }
-    } catch (e) {
-      console.error("Erreur de chargement des projets :", e);
+      // Placement tout en haut/à gauche de la grille
+      grille.insertAdjacentHTML('afterbegin', carteHTML);
+
+      // --- HTML DE LA POP-UP / FICHE ---
+      const galerieHTML = (p.gallery || [])
+        .map(img => `<div class="bloc s6 anim"><img src="${img}" alt="${p.title}" loading="lazy"></div>`)
+        .join('');
+
+      const ficheHTML = `
+        <section class="fiche ${p.id}" 
+                 id="fiche-${p.id}" 
+                 role="dialog" 
+                 aria-modal="true" 
+                 aria-label="Projet ${p.title}" 
+                 style="--f-fond:${fond};--f-texte:${texte};--f-accent:${accent};--f-accent-2:${accent2};--f-cadre:${cadre}">
+          <div class="fiche-barre">
+            <span class="fil">${p.pastille || 'Projet'} · ${p.annee || '2026'}</span>
+            <button class="fermer" type="button">Fermer <span class="x">✕</span></button>
+          </div>
+          <div class="fiche-contenu">
+            <div class="p-tete">
+              <h2>${p.title}</h2>
+              <span class="p-signature">${p.tags || ''}</span>
+            </div>
+            <dl class="p-infos">
+              <div><dt>Client</dt><dd>${p.client || '—'}</dd></div>
+              <div><dt>Mission</dt><dd>${p.mission || '—'}</dd></div>
+              <div><dt>Livrables</dt><dd>${p.livrables || '—'}</dd></div>
+              <div><dt>Mots-clés</dt><dd>${p.mots_cles || '—'}</dd></div>
+            </dl>
+            ${p.intro ? `<p class="p-intro">${p.intro}</p>` : ''}
+            <div class="compo">
+              ${galerieHTML}
+            </div>
+          </div>
+        </section>`;
+
+      document.body.insertAdjacentHTML('beforeend', ficheHTML);
+    });
+
+    // 4. Réinitialiser les événements d'ouverture de pop-up pour les nouvelles cartes
+    if (typeof initModales === 'function') {
+      initModales();
     }
+  } catch (e) {
+    console.error("Erreur de chargement des projets CMS :", e);
   }
+}
 
-  document.addEventListener('DOMContentLoaded', chargerProjetsCMS);
+document.addEventListener('DOMContentLoaded', chargerEtInjecterProjets);
 </script>
 
-<script>
-  async function injecterProjetsEtFiches() {
-    try {
-      const response = await fetch('./assets/projets.json');
-      if (!response.ok) return;
 
-      const data = await response.json();
-      const projets = data.projets || [];
 
-      const grille = document.querySelector('#projets .grille');
-
-      projets.forEach(p => {
-        const c = p.couleurs || {};
-        const fond = c.fond || '#0F1417';
-        const texte = c.texte || '#EEEEF0';
-        const accent = c.accent || '#53E6D4';
-        const accent2 = c.accent2 || '#6045F4';
-        const cadre = c.cadre || '#161D21';
-
-        // 1. Injection de la CARTE dans la grille
-        if (grille) {
-          const carteHTML = `
-            <button class="carte revele" 
-                    data-projet="${p.id}" 
-                    style="--fond:${fond};--accent:${accent2}" 
-                    data-curseur="${accent2}" 
-                    aria-label="Voir le projet ${p.title}">
-              <div class="media">
-                <div class="br-couv">
-                  <img src="${p.image_miniature}" alt="${p.title}">
-                </div>
-                <span class="pastille">${p.pastille || 'Projet'}</span>
-              </div>
-              <div class="legende">
-                <h3>${p.title}</h3><span class="annee">${p.annee || '2026'}</span>
-                <span class="tags">${p.tags || ''} <span class="fleche">→</span></span>
-              </div>
-            </button>`;
-          grille.insertAdjacentHTML('beforeend', carteHTML);
-        }
-
-        // 2. Injection de la FICHE en bas de page (reprend la structure exacte de votre code)
-        const galerieHTML = (p.galerie || []).map(img => `<img src="${img}" alt="${p.title}">`).join('');
-
-        const ficheHTML = `
-          <!-- ==================== FICHE : ${p.title.toUpperCase()} ==================== -->
-          <section class="fiche ${p.id}" 
-                   id="fiche-${p.id}" 
-                   role="dialog" 
-                   aria-modal="true" 
-                   aria-label="Projet ${p.title}" 
-                   style="--f-fond:${fond};--f-texte:${texte};--f-accent:${accent};--f-accent-2:${accent2};--f-cadre:${cadre}">
-            <div class="fiche-contenu">
-              <header class="fiche-header">
-                <h2>${p.title}</h2>
-                <p class="baseline">${p.baseline || ''}</p>
-              </header>
-              <div class="fiche-body">
-                <p class="intro">${p.intro || ''}</p>
-                <div class="composition-visuels">
-                  ${galerieHTML}
-                </div>
-              </div>
-              <button class="btn-fermer" aria-label="Fermer la fiche">×</button>
-            </div>
-          </section>`;
-
-        document.body.insertAdjacentHTML('beforeend', ficheHTML);
-      });
-
-      // Relancer vos écouteurs d'événements JS existants si nécessaire
-      if (typeof initModales === 'function') {
-        initModales();
-      }
-    } catch (e) {
-      console.error("Erreur lors de la génération des projets :", e);
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', injecterProjetsEtFiches);
-</script>
 </body>
 </html>
