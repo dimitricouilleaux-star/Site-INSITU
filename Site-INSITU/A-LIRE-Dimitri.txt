@@ -1,0 +1,45 @@
+SITE INSITU · Version du 13 octobre 2026
+========================================
+
+Tout le site tient dans index.html (HTML, CSS et JavaScript). Les images,
+les vidéos et la police Hightone sont dans le dossier assets/. Il n'y a pas
+de framework : le dossier se dépose tel quel sur GitHub Pages.
+
+Pour tester : ouvrir index.html dans un navigateur.
+L'intro animée ne se joue qu'une fois par onglet (sessionStorage).
+
+CE QU'IL RESTE À FAIRE
+----------------------
+1. Formulaire de contact et questionnaire : ils ne sont pas encore branchés.
+   Pour l'instant, le JavaScript bloque l'envoi et affiche juste un message
+   de remerciement.
+   → Il faut les relier à un service comme Formspree ou Web3Forms, pour que
+     les réponses arrivent par mail sur in-situ@outlook.fr.
+   → Formulaire de contact : id="formulaire".
+   → Questionnaire en 8 étapes : id="questionnaire". Les champs ont un attribut
+     name, et les choix multiples sont regroupés par data-nom sur les .puces.
+     La fonction recapituler() génère déjà le récapitulatif.
+
+2. Lien LinkedIn à remplacer (pour l'instant, il pointe sur linkedin.com).
+
+3. Mentions légales : le lien pointe sur #mentions. Il faut créer une page
+   mentions-legales.html.
+
+4. Photo d'Elisa dans « À propos » : le symbole sert de place réservée
+   (figure.portrait).
+
+5. Nom de domaine : insitu.fr si possible, sinon madeinsitu.fr.
+
+6. Partage : la meta description est en place. Il manque l'image de partage
+   (og:image) et les balises Open Graph.
+
+BON À SAVOIR
+------------
+- Polices : Inter, Manrope, Figtree et Major Mono Display viennent de Google
+  Fonts. Hightone (le logo INSITU) est dans assets/.
+- Les coordonnées affichées sur ta carte, ton devis et ta plaquette sont
+  fictives (06 00 00 00 00, contact@vitrineandco.fr), comme sur Instagram.
+- Pour ajouter un projet : dupliquer une .carte dans #projets et une
+  section .fiche. Les fiches suivent toutes la même structure : logo animé,
+  infos, intro, puis une composition de visuels qui s'animent au défilement.
+- Les animations respectent le réglage « réduire les animations » du système.

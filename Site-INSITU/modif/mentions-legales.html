@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>Mentions légales · INSITU</title>
+<meta name="description" content="Mentions légales et données personnelles du site INSITU, Elisa Gobeyn, graphiste freelance à Castres (Tarn).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Quand la page est affichée dans le pop-up du site, on masque l'en-tête et le pied de page -->
+<script>if (self !== top) document.documentElement.classList.add('embed');</script>
+<!--
+  À COMPLÉTER : les zones surlignées en rouge (balise <mark class="todo">) sont des informations
+  que seule l'éditrice peut fournir (statut, SIRET, adresse, téléphone, hébergeur…).
+  Une fois remplies, retirer la balise <mark> autour du texte.
+-->
+<style>
+@font-face{font-family:"Hightone";src:url(assets/hightone-regular.otf) format("opentype");font-display:swap}
+:root{
+  --noir:#0B0A0A;
+  --surface:#161414;
+  --ligne:rgba(244,240,235,.16);
+  --creme:#F4F0EB;
+  --blanc:#FFFFFF;
+  --corail:#E5293E;
+  --doux:rgba(244,240,235,.68);
+  --display:"Hightone","Oswald","Arial Narrow",Impact,sans-serif;
+  --texte:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gouttiere:clamp(16px,4vw,56px);
+  --ease:cubic-bezier(.19,1,.22,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--noir);scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--noir);color:var(--creme);font-family:var(--texte);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+p{margin:0}
+h1,h2{font-family:var(--display);font-weight:400;line-height:.95;letter-spacing:.005em;margin:0;text-wrap:balance}
+::selection{background:var(--corail);color:var(--blanc)}
+:focus-visible{outline:2px solid var(--corail);outline-offset:3px;border-radius:2px}
+.wrap{padding-inline:var(--gouttiere);max-width:1100px;margin-inline:auto}
+
+/* lien souligné animé (comme sur le site) */
+.lien{position:relative;text-decoration:none;transition:color .35s var(--ease)}
+.lien::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1.5px;background:var(--corail);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.lien:hover,.lien:focus-visible{color:var(--corail)}
+.lien:hover::after,.lien:focus-visible::after{transform:scaleX(1);transform-origin:left}
+
+/* en-tête (page ouverte seule) */
+.barre{border-bottom:1px solid var(--ligne)}
+.barre .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.marque{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--blanc);font-weight:600}
+.marque .sym{width:30px;height:30px;transition:transform .8s var(--ease)}
+.marque:hover .sym{transform:rotate(90deg)}
+
+/* contenu */
+.legal{padding-block:clamp(40px,7vw,96px) clamp(48px,7vw,96px)}
+.legal-tete{display:grid;gap:18px;padding-bottom:clamp(28px,4vw,48px)}
+.legal-tete h1{font-size:clamp(56px,9vw,120px)}
+.legal-tete .maj{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--doux)}
+.legal-tete .chapo{color:var(--doux);max-width:62ch}
+.rub{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:14px clamp(24px,5vw,80px);padding-block:clamp(28px,4vw,44px);border-top:1px solid var(--ligne)}
+.rub h2{font-size:clamp(30px,3.2vw,44px)}
+.rub h2 .n{display:block;font-family:var(--texte);font-size:12.5px;font-weight:600;letter-spacing:.14em;color:var(--corail);margin-bottom:10px}
+.corps{display:grid;gap:14px;color:var(--doux);max-width:64ch;align-content:start}
+.corps strong{color:var(--creme);font-weight:500}
+.corps a{color:var(--creme);text-underline-offset:3px;text-decoration-color:var(--corail)}
+.corps a:hover{color:var(--corail)}
+.corps ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.corps li::marker{color:var(--corail)}
+.id{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:12px 24px;margin:0}
+.id dt{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--doux);padding-top:5px}
+.id dd{margin:0;color:var(--creme);overflow-wrap:anywhere}
+mark.todo{background:rgba(229,41,62,.16);color:var(--creme);border:1px dashed var(--corail);border-radius:4px;padding:0 6px}
+
+/* pied de page (page ouverte seule) */
+.pied{border-top:1px solid var(--ligne);padding-block:28px;font-size:14px;color:var(--doux)}
+.pied .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px}
+
+.embed .barre,.embed .pied{display:none}
+.embed .legal{padding-block:clamp(28px,5vw,64px) 40px}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .rub{grid-template-columns:1fr}
+  .id{grid-template-columns:1fr;gap:2px}
+  .id dd{margin-bottom:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="symbole" viewBox="0 0 300 300"><path fill="currentColor" d="M128.48,285.85c-1.73-48.87-31.83-96.92-81.94-108.65-9.06-2.12-17.85-3.16-27.15-3.59l-19.38-1.19v-16.48s140.68,0,140.68,0c2.98-.16,5.03,1.57,5.03,4.56l.09,139.48-16.47.02-.85-14.15Z"/><path fill="currentColor" d="M279.93,126.4l20.06,1.19v16.5s-141.14-.01-141.14-.01c-2.49-.01-4.54-1.61-4.54-4.08l-.07-49.66L154.21,0h16.44s1.2,19.74,1.2,19.74c3.88,48.84,35.53,94.58,86.49,104.13,7.21,1.35,14.02,2.04,21.59,2.53Z"/></symbol>
+</svg>
+
+<header class="barre">
+  <div class="wrap">
+    <a class="marque" href="index.html" aria-label="INSITU, retour au site">
+      <svg class="sym" aria-hidden="true"><use href="#symbole"/></svg>
+      <span>INSITU</span>
+    </a>
+    <a class="lien" href="index.html">← Retour au site</a>
+  </div>
+</header>
+
+<main class="legal wrap">
+  <div class="legal-tete">
+    <p class="maj">INSITU · Elisa Gobeyn</p>
+    <h1>Mentions légales</h1>
+    <p class="chapo">Informations légales relatives au site, conformément à la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), et informations sur la protection de vos données personnelles.</p>
+    <p class="maj">Dernière mise à jour : 14 octobre 2026</p>
+  </div>
+
+  <section class="rub" id="editeur">
+    <h2><span class="n">01</span>Éditrice du site</h2>
+    <div class="corps">
+      <dl class="id">
+        <dt>Site</dt><dd>INSITU · identité visuelle et communication personnalisée</dd>
+        <dt>Éditrice</dt><dd>Elisa Gobeyn, graphiste freelance</dd>
+        <dt>Directrice de la publication</dt><dd>Elisa Gobeyn</dd>
+        <dt>Statut</dt><dd><mark class="todo">[à compléter : ex. entrepreneure individuelle, micro-entreprise]</mark></dd>
+        <dt>SIRET</dt><dd><mark class="todo">[à compléter]</mark></dd>
+        <dt>Adresse</dt><dd><mark class="todo">[à compléter : adresse professionnelle]</mark></dd>
+        <dt>E-mail</dt><dd><a href="mailto:in-situ@outlook.fr">in-situ@outlook.fr</a></dd>
+        <dt>Téléphone</dt><dd><mark class="todo">[à compléter]</mark></dd>
+        <dt>TVA</dt><dd><mark class="todo">[à compléter si applicable : ex. « TVA non applicable, art. 293 B du CGI »]</mark></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="rub" id="hebergement">
+    <h2><span class="n">02</span>Hébergement</h2>
+    <div class="corps">
+      <p>Le site est hébergé par :</p>
+      <dl class="id">
+        <dt>Hébergeur</dt><dd><mark class="todo">[à compléter : nom de l'hébergeur]</mark></dd>
+        <dt>Adresse</dt><dd><mark class="todo">[à compléter : adresse postale de l'hébergeur]</mark></dd>
+        <dt>Contact</dt><dd><mark class="todo">[à compléter : téléphone ou site web de l'hébergeur]</mark></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="rub" id="propriete">
+    <h2><span class="n">03</span>Propriété intellectuelle</h2>
+    <div class="corps">
+      <p>L'ensemble des contenus du site (logos, identités visuelles, illustrations, animations, mises en page, textes) est la propriété d'Elisa Gobeyn, sauf mention contraire.</p>
+      <p>Les marques, logos et noms des projets présentés restent la propriété de leurs titulaires respectifs. Le projet <strong>La Boucle Rose</strong> est un projet fictif, réalisé à des fins de démonstration.</p>
+      <p>Toute reproduction, représentation, modification ou exploitation, totale ou partielle, sans autorisation écrite préalable est interdite et peut constituer une contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+    </div>
+  </section>
+
+  <section class="rub" id="donnees">
+    <h2><span class="n">04</span>Données personnelles</h2>
+    <div class="corps">
+      <p>Les informations ci-dessous vous sont communiquées conformément au Règlement général sur la protection des données (RGPD, règlement UE 2016/679) et à la loi « Informatique et Libertés » du 6 janvier 1978.</p>
+      <p><strong>Responsable du traitement.</strong> Elisa Gobeyn (INSITU), dont les coordonnées figurent à la rubrique « Éditrice du site ».</p>
+      <p><strong>Données collectées.</strong> Lorsque vous utilisez le formulaire de contact ou le questionnaire : votre nom ou le nom de votre entreprise, votre adresse e-mail, votre numéro de téléphone (facultatif) et les informations sur votre activité et votre projet que vous choisissez de renseigner.</p>
+      <p><strong>Finalités.</strong> Répondre à vos demandes, étudier votre projet et préparer une éventuelle collaboration (échanges, devis).</p>
+      <p><strong>Bases légales.</strong> Les mesures précontractuelles prises à votre demande et l'intérêt légitime de répondre aux sollicitations reçues (article 6.1.b et 6.1.f du RGPD).</p>
+      <p><strong>Durée de conservation.</strong> Le temps nécessaire au traitement de votre demande, puis 3 ans au maximum après le dernier échange. En cas de collaboration, les pièces nécessaires à la facturation sont conservées selon les durées légales.</p>
+      <p><strong>Destinataires.</strong> Les données ne sont ni vendues ni cédées. L'envoi des formulaires est assuré par le service <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a> (Formspree, Inc., États-Unis), qui transmet vos messages par e-mail à l'éditrice et peut les conserver temporairement. Vos données peuvent donc être traitées hors de l'Union européenne : consultez la politique de confidentialité de Formspree pour connaître les garanties mises en place.</p>
+      <p><strong>Vos droits.</strong> Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité de vos données. Pour les exercer, écrivez à <a href="mailto:in-situ@outlook.fr">in-situ@outlook.fr</a>. Si vous estimez que vos droits ne sont pas respectés, vous pouvez déposer une réclamation auprès de la <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">CNIL</a>.</p>
+    </div>
+  </section>
+
+  <section class="rub" id="cookies">
+    <h2><span class="n">05</span>Cookies et services tiers</h2>
+    <div class="corps">
+      <p>Ce site n'utilise ni cookie publicitaire ni outil de mesure d'audience.</p>
+      <p>Il utilise uniquement le stockage de session de votre navigateur pour ne pas rejouer l'animation d'introduction à chaque visite. Cette information reste sur votre appareil et disparaît à la fermeture de l'onglet.</p>
+      <p>Les polices de caractères sont chargées depuis le service Google Fonts : cette connexion transmet votre adresse IP à Google. Les liens vers Instagram et LinkedIn mènent à des sites tiers, régis par leurs propres politiques de confidentialité.</p>
+    </div>
+  </section>
+
+  <section class="rub" id="responsabilite">
+    <h2><span class="n">06</span>Responsabilité</h2>
+    <div class="corps">
+      <p>Les informations présentes sur ce site sont données à titre indicatif et peuvent évoluer. L'éditrice s'efforce d'en garantir l'exactitude mais ne saurait être tenue responsable d'une erreur, d'une omission ou d'une indisponibilité temporaire du site.</p>
+      <p>Les liens vers des sites externes ne sont pas sous le contrôle de l'éditrice, qui n'en garantit pas le contenu.</p>
+    </div>
+  </section>
+
+  <section class="rub" id="droit">
+    <h2><span class="n">07</span>Droit applicable</h2>
+    <div class="corps">
+      <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français sont compétents.</p>
+    </div>
+  </section>
+
+  <section class="rub" id="credits">
+    <h2><span class="n">08</span>Crédits</h2>
+    <div class="corps">
+      <p>Identité visuelle et création graphique : Elisa Gobeyn.</p>
+      <p>Polices : Hightone ; Inter, Figtree, Manrope et Major Mono Display (Google Fonts).</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <span>INSITU · Elisa Gobeyn · © 2026</span>
+    <a class="lien" href="index.html">← Retour au site</a>
+  </div>
+</footer>
+
+<script>
+/* Affichée dans le pop-up du site : Échap ferme le pop-up (le clavier est capté par ce cadre) */
+addEventListener('keydown', e => {
+  if (e.key === 'Escape' && self !== top) parent.postMessage({insitu: 'fermer-mentions'}, '*');
+});
+</script>
+</body>
+</html>
