@@ -519,5 +519,52 @@
 
   document.addEventListener('DOMContentLoaded', chargerProjets);
 </script>
+
+<script>
+  async function chargerProjetsCMS() {
+    try {
+      const response = await fetch('./assets/projets.json');
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const projets = data.projets || [];
+      const grille = document.querySelector('#projets .grille');
+
+      if (!grille) return;
+
+      // Injection de chaque carte créée depuis l'admin
+      projets.forEach(projet => {
+        const carteHTML = `
+          <button class="carte revele" 
+                  data-projet="${projet.id}" 
+                  style="--fond:${projet.couleur_fond};--accent:${projet.couleur_accent}" 
+                  data-curseur="${projet.couleur_accent}" 
+                  aria-label="Voir le projet ${projet.title}">
+            <div class="media">
+              <div class="br-couv">
+                <img src="${projet.image}" alt="${projet.title}">
+              </div>
+              <span class="pastille">${projet.pastille}</span>
+            </div>
+            <div class="legende">
+              <h3>${projet.title}</h3><span class="annee">${projet.annee}</span>
+              <span class="tags">${projet.tags} <span class="fleche">→</span></span>
+            </div>
+          </button>
+        `;
+        grille.insertAdjacentHTML('beforeend', carteHTML);
+      });
+
+      // Si tu as un script JS qui gère le clic sur les fiches ou les animations au survol :
+      if (typeof initialiserEvenementsProjets === 'function') {
+        initialiserEvenementsProjets();
+      }
+    } catch (e) {
+      console.error("Erreur de chargement des projets :", e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', chargerProjetsCMS);
+</script>
 </body>
 </html>

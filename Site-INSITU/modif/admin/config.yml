@@ -1,14 +1,29 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets"
+public_folder: "assets"
+
 collections:
-  - name: "projets"
-    label: "Projets"
-    folder: "modif/_projets"
-    create: true
-    extension: "json"
-    format: "json"
-    slug: "{{slug}}"
-    fields:
-      - { label: "Titre", name: "title", widget: "string" }
-      - { label: "ID (ex: test-x2)", name: "id", widget: "string" }
-      - { label: "Image miniature", name: "image", widget: "image" }
-      - { label: "Informations", name: "infos", widget: "string" }
-      - { label: "Texte d'introduction", name: "intro", widget: "text" }
+  - name: "gestion_projets"
+    label: "Gestion des Projets"
+    files:
+      - name: "liste_projets"
+        label: "Liste des Projets"
+        file: "assets/projets.json"
+        fields:
+          - label: "Projets"
+            name: "projets"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Titre du projet", name: "title", widget: "string" }
+              - { label: "ID / Slug (ex: test-x2)", name: "id", widget: "string" }
+              - { label: "Année", name: "annee", widget: "string", default: "2026" }
+              - { label: "Pastille (ex: Projet client)", name: "pastille", widget: "string", default: "Projet client" }
+              - { label: "Couleur de fond (ex: #F5ECE4)", name: "couleur_fond", widget: "string", default: "#0F1417" }
+              - { label: "Couleur d'accent (ex: #6045F4)", name: "couleur_accent", widget: "string", default: "#6045F4" }
+              - { label: "Image / Couverture", name: "image", widget: "image" }
+              - { label: "Tags (ex: Identité · Print)", name: "tags", widget: "string" }
+              - { label: "Texte d'introduction", name: "intro", widget: "text" }
