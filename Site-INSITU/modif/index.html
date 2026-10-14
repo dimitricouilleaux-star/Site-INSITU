@@ -566,5 +566,87 @@
 
   document.addEventListener('DOMContentLoaded', chargerProjetsCMS);
 </script>
+
+<script>
+  async function injecterProjetsEtFiches() {
+    try {
+      const response = await fetch('./assets/projets.json');
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const projets = data.projets || [];
+
+      const grille = document.querySelector('#projets .grille');
+
+      projets.forEach(p => {
+        const c = p.couleurs || {};
+        const fond = c.fond || '#0F1417';
+        const texte = c.texte || '#EEEEF0';
+        const accent = c.accent || '#53E6D4';
+        const accent2 = c.accent2 || '#6045F4';
+        const cadre = c.cadre || '#161D21';
+
+        // 1. Injection de la CARTE dans la grille
+        if (grille) {
+          const carteHTML = `
+            <button class="carte revele" 
+                    data-projet="${p.id}" 
+                    style="--fond:${fond};--accent:${accent2}" 
+                    data-curseur="${accent2}" 
+                    aria-label="Voir le projet ${p.title}">
+              <div class="media">
+                <div class="br-couv">
+                  <img src="${p.image_miniature}" alt="${p.title}">
+                </div>
+                <span class="pastille">${p.pastille || 'Projet'}</span>
+              </div>
+              <div class="legende">
+                <h3>${p.title}</h3><span class="annee">${p.annee || '2026'}</span>
+                <span class="tags">${p.tags || ''} <span class="fleche">→</span></span>
+              </div>
+            </button>`;
+          grille.insertAdjacentHTML('beforeend', carteHTML);
+        }
+
+        // 2. Injection de la FICHE en bas de page (reprend la structure exacte de votre code)
+        const galerieHTML = (p.galerie || []).map(img => `<img src="${img}" alt="${p.title}">`).join('');
+
+        const ficheHTML = `
+          <!-- ==================== FICHE : ${p.title.toUpperCase()} ==================== -->
+          <section class="fiche ${p.id}" 
+                   id="fiche-${p.id}" 
+                   role="dialog" 
+                   aria-modal="true" 
+                   aria-label="Projet ${p.title}" 
+                   style="--f-fond:${fond};--f-texte:${texte};--f-accent:${accent};--f-accent-2:${accent2};--f-cadre:${cadre}">
+            <div class="fiche-contenu">
+              <header class="fiche-header">
+                <h2>${p.title}</h2>
+                <p class="baseline">${p.baseline || ''}</p>
+              </header>
+              <div class="fiche-body">
+                <p class="intro">${p.intro || ''}</p>
+                <div class="composition-visuels">
+                  ${galerieHTML}
+                </div>
+              </div>
+              <button class="btn-fermer" aria-label="Fermer la fiche">×</button>
+            </div>
+          </section>`;
+
+        document.body.insertAdjacentHTML('beforeend', ficheHTML);
+      });
+
+      // Relancer vos écouteurs d'événements JS existants si nécessaire
+      if (typeof initModales === 'function') {
+        initModales();
+      }
+    } catch (e) {
+      console.error("Erreur lors de la génération des projets :", e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', injecterProjetsEtFiches);
+</script>
 </body>
 </html>

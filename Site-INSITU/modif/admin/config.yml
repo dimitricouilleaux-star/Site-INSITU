@@ -19,11 +19,27 @@ collections:
             summary: "{{fields.title}}"
             fields:
               - { label: "Titre du projet", name: "title", widget: "string" }
-              - { label: "ID / Slug (ex: test-x2)", name: "id", widget: "string" }
+              - { label: "Identifiant unique (ex: vitrine-co)", name: "id", widget: "string" }
+              - { label: "Sous-titre / Baseline", name: "baseline", widget: "string" }
               - { label: "Année", name: "annee", widget: "string", default: "2026" }
               - { label: "Pastille (ex: Projet client)", name: "pastille", widget: "string", default: "Projet client" }
-              - { label: "Couleur de fond (ex: #F5ECE4)", name: "couleur_fond", widget: "string", default: "#0F1417" }
-              - { label: "Couleur d'accent (ex: #6045F4)", name: "couleur_accent", widget: "string", default: "#6045F4" }
-              - { label: "Image / Couverture", name: "image", widget: "image" }
               - { label: "Tags (ex: Identité · Print)", name: "tags", widget: "string" }
+              - { label: "Image miniature (Carte)", name: "image_miniature", widget: "image" }
               - { label: "Texte d'introduction", name: "intro", widget: "text" }
+
+              # Configuration des couleurs de la fiche
+              - label: "Couleurs de la fiche"
+                name: "couleurs"
+                widget: "object"
+                fields:
+                  - { label: "Fond (--f-fond)", name: "fond", widget: "string", default: "#0F1417" }
+                  - { label: "Texte (--f-texte)", name: "texte", widget: "string", default: "#EEEEF0" }
+                  - { label: "Accent principal (--f-accent)", name: "accent", widget: "string", default: "#53E6D4" }
+                  - { label: "Accent secondaire (--f-accent-2)", name: "accent2", widget: "string", default: "#6045F4" }
+                  - { label: "Cadre (--f-cadre)", name: "cadre", widget: "string", default: "#161D21" }
+
+              # Visuels de la fiche
+              - label: "Visuels du projet"
+                name: "galerie"
+                widget: "list"
+                field: { label: "Image", name: "url", widget: "image" }
