@@ -1,18 +1,14 @@
-backend:
-  name: git-gateway
-  branch: main # Remplace par 'master' si ta branche principale sur GitHub s'appelle master
-
-# Indiquer les chemins complets depuis la racine du dépôt GitHub
-media_folder: "Site-INSITU/modif/assets"
-public_folder: "assets"
-
 collections:
   - name: "projets"
-    label: "Projets / Portfolio"
-    folder: "Site-INSITU/modif/_projets"
+    label: "Projets"
+    folder: "modif/_projets"
     create: true
+    extension: "json"
+    format: "json"
     slug: "{{slug}}"
     fields:
-      - { label: "Titre du projet", name: "title", widget: "string" }
-      - { label: "Image principale", name: "image", widget: "image" }
-      - { label: "Description", name: "body", widget: "markdown" }
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "ID (ex: test-x2)", name: "id", widget: "string" }
+      - { label: "Image miniature", name: "image", widget: "image" }
+      - { label: "Informations", name: "infos", widget: "string" }
+      - { label: "Texte d'introduction", name: "intro", widget: "text" }

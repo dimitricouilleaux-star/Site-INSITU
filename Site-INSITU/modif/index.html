@@ -484,5 +484,40 @@
     });
   }
 </script>
+<script>
+  async function chargerProjets() {
+    // Liste des identifiants de projets enregistrés
+    const listeProjets = ['test-x2', '12592']; 
+    
+    for (const id of listeProjets) {
+      try {
+        const response = await fetch(`./_projets/${id}.json`);
+        if (!response.ok) continue;
+        const data = await response.json();
+
+        // 1. Insertion de la carte dans #projets
+        const carteHTML = `
+          <a href="#${data.id}" class="carte">
+            <img src="${data.image}" alt="${data.title}">
+            <h3>${data.title}</h3>
+          </a>`;
+        document.querySelector('#projets')?.insertAdjacentHTML('beforeend', carteHTML);
+
+        // 2. Insertion de la section fiche
+        const ficheHTML = `
+          <section class="fiche" id="${data.id}">
+            <h2>${data.title}</h2>
+            <p class="infos">${data.infos}</p>
+            <p class="intro">${data.intro}</p>
+          </section>`;
+        document.body.insertAdjacentHTML('beforeend', ficheHTML);
+      } catch (e) {
+        console.error("Erreur de chargement du projet :", id, e);
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', chargerProjets);
+</script>
 </body>
 </html>
