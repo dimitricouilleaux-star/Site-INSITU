@@ -27,16 +27,17 @@ collections:
               - { label: "Image miniature (Carte)", name: "image_miniature", widget: "image" }
               - { label: "Texte d'introduction", name: "intro", widget: "text" }
 
-              # Configuration des couleurs de la fiche
+              # Configuration des couleurs de la fiche (Color picker + optionnel)
               - label: "Couleurs de la fiche"
                 name: "couleurs"
                 widget: "object"
+                required: false
                 fields:
-                  - { label: "Fond (--f-fond)", name: "fond", widget: "string", default: "#0F1417" }
-                  - { label: "Texte (--f-texte)", name: "texte", widget: "string", default: "#EEEEF0" }
-                  - { label: "Accent principal (--f-accent)", name: "accent", widget: "string", default: "#53E6D4" }
-                  - { label: "Accent secondaire (--f-accent-2)", name: "accent2", widget: "string", default: "#6045F4" }
-                  - { label: "Cadre (--f-cadre)", name: "cadre", widget: "string", default: "#161D21" }
+                  - { label: "Fond (--f-fond)", name: "fond", widget: "color", default: "#0F1417", required: false }
+                  - { label: "Texte (--f-texte)", name: "texte", widget: "color", default: "#EEEEF0", required: false }
+                  - { label: "Accent principal (--f-accent)", name: "accent", widget: "color", default: "#53E6D4", required: false }
+                  - { label: "Accent secondaire (--f-accent-2)", name: "accent2", widget: "color", default: "#6045F4", required: false }
+                  - { label: "Cadre (--f-cadre)", name: "cadre", widget: "color", default: "#161D21", required: false }
 
               # Visuels de la fiche
               - label: "Visuels du projet"
