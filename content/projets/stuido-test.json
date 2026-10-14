@@ -1,0 +1,16 @@
+{
+  "annee": "2026",
+  "pastille": "Projet fictif",
+  "couleurs": {
+    "fond": "#0083d4",
+    "texte": "#000000",
+    "accent": "#fff47c",
+    "accent2": "#ffa800",
+    "cadre": "#aadfff"
+  },
+  "date": "2026-10-14",
+  "id": "mon-premier-test",
+  "title": "Stuido test",
+  "tags": "web",
+  "image_cover": "/assets/images/projets/pngtree-realistic-french-croissant-png-image_14700026.png"
+}
