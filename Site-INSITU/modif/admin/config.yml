@@ -2,13 +2,14 @@ backend:
   name: git-gateway
   branch: main # Remplace par 'master' si ta branche principale sur GitHub s'appelle master
 
-media_folder: "assets" # Le dossier de ton projet où les photos seront envoyées
-public_folder: "../assets"
+# Indiquer les chemins complets depuis la racine du dépôt GitHub
+media_folder: "Site-INSITU/modif/assets"
+public_folder: "assets"
 
 collections:
   - name: "projets"
     label: "Projets / Portfolio"
-    folder: "_projets" # Le système créera ce dossier pour sauvegarder les textes
+    folder: "Site-INSITU/modif/_projets"
     create: true
     slug: "{{slug}}"
     fields:
