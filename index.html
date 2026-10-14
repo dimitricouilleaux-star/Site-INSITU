@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INSITU — Showcase & Realisations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    header {
+      padding: 2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    .hero {
+      text-align: center;
+      padding: 5rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+    .projects {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    .card-tag {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">IN SITU</div>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="/admin/">Admin CMS</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Projets & Réalisations InSitu</h1>
+    <p>Découvrez nos créations, aménagements et designs sur-mesure.</p>
+  </section>
+
+  <section id="projets" class="projects">
+    <!-- Chargement dynamique depuis assets/projets.json -->
+  </section>
+
+  <footer>
+    <p>&copy; 2026 InSitu. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    fetch('assets/projets.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('projets');
+        container.innerHTML = data.map(p => `
+          <article class="card">
+            <div class="card-body">
+              <span class="card-tag">${p.category || 'Projet'}</span>
+              <h3>${p.title}</h3>
+              <p>${p.description}</p>
+            </div>
+          </article>
+        `).join('');
+      })
+      .catch(err => console.error('Erreur de chargement des projets:', err));
+  </script>
+</body>
+</html>

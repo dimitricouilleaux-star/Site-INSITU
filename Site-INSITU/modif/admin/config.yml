@@ -1,46 +1,74 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: main # ou master selon votre dépôt GitHub
 
-media_folder: "assets"
-public_folder: "assets"
+media_folder: "assets/images/projets" # Dossier où sont stockées les images
+public_folder: "/assets/images/projets"
+
+# Mode de publication direct et simple pour la cliente
+publish_mode: simple
+
+locale: "fr" # Interface en français
 
 collections:
-  - name: "gestion_projets"
-    label: "Gestion des Projets"
-    files:
-      - name: "liste_projets"
-        label: "Liste des Projets"
-        file: "assets/projets.json"
+  - name: "projets"
+    label: "Projets / Réalisations"
+    label_singular: "Projet"
+    folder: "content/projets" # Emplacement des fichiers de projets
+    create: true              # Permet à la cliente d'AJOUTER un projet
+    delete: true              # Permet à la cliente de SUPPRIMER un projet
+    slug: "{{slug}}"
+    editor:
+      preview: true
+
+    # Champs permettant à la cliente de personnaliser et "décorer" son projet
+    fields:
+      - { label: "Titre du projet", name: "title", widget: "string", hint: "Nom principal de la réalisation" }
+      - { label: "Sous-titre / Court résumé", name: "description", widget: "text", hint: "Bref résumé affiché sur les cartes" }
+      - { label: "Date de réalisation", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Projet à la une (Page d'accueil)", name: "featured", widget: "boolean", default: false, required: false }
+
+      # --- SECTION DÉCORATION & STYLE VISUEL ---
+      - label: "Mise en page & Décoration"
+        name: "style_config"
+        widget: "object"
         fields:
-          - label: "Projets"
-            name: "projets"
-            widget: "list"
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Titre du projet", name: "title", widget: "string" }
-              - { label: "Identifiant unique (ex: vitrine-co)", name: "id", widget: "string" }
-              - { label: "Sous-titre / Baseline", name: "baseline", widget: "string" }
-              - { label: "Année", name: "annee", widget: "string", default: "2026" }
-              - { label: "Pastille (ex: Projet client)", name: "pastille", widget: "string", default: "Projet client" }
-              - { label: "Tags (ex: Identité · Print)", name: "tags", widget: "string" }
-              - { label: "Image miniature (Carte)", name: "image_miniature", widget: "image" }
-              - { label: "Texte d'introduction", name: "intro", widget: "text" }
+          - label: "Style de présentation"
+            name: "layout_type"
+            widget: "select"
+            options:
+              - { label: "Plein écran (Impact visuel)", value: "hero" }
+              - { label: "Galerie Grille (Moderne)", value: "grid" }
+              - { label: "Avant / Après (Rénovation/Déco)", value: "before_after" }
+              - { label: "Minimaliste & Épuré", value: "clean" }
+            default: "hero"
+          - { label: "Couleur d'accentuation du projet", name: "accent_color", widget: "color", default: "#2563EB", required: false, hint: "Couleur personnalisée pour les boutons et détails de ce projet" }
+          - { label: "Couleur de fond de la page", name: "bg_style", widget: "select", options: ["Clair (Blanc)", "Gris doux", "Sombre / Élégant"], default: "Clair (Blanc)" }
 
-              # Configuration des couleurs de la fiche (Color picker + optionnel)
-              - label: "Couleurs de la fiche"
-                name: "couleurs"
-                widget: "object"
-                required: false
-                fields:
-                  - { label: "Fond (--f-fond)", name: "fond", widget: "color", default: "#0F1417", required: false }
-                  - { label: "Texte (--f-texte)", name: "texte", widget: "color", default: "#EEEEF0", required: false }
-                  - { label: "Accent principal (--f-accent)", name: "accent", widget: "color", default: "#53E6D4", required: false }
-                  - { label: "Accent secondaire (--f-accent-2)", name: "accent2", widget: "color", default: "#6045F4", required: false }
-                  - { label: "Cadre (--f-cadre)", name: "cadre", widget: "color", default: "#161D21", required: false }
+      # --- IMAGES & GALERIE ---
+      - { label: "Image de couverture (Principale)", name: "image_cover", widget: "image", hint: "Photo principale affichée en haut et sur les cartes" }
+      - label: "Galerie de photos du projet"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.image}}"
+        field: { label: "Photo", name: "image", widget: "image" }
 
-              # Visuels de la fiche
-              - label: "Visuels du projet"
-                name: "galerie"
-                widget: "list"
-                field: { label: "Image", name: "url", widget: "image" }
+      # --- ÉTIQUETTES & CATEGORIES ---
+      - label: "Catégories / Étiquettes"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Exemples : Cuisine, Sur-mesure, Salon, Rénovation..."
+
+      # --- CONTENU DÉTAILLÉ DU PROJET ---
+      - { label: "Description détaillée / Histoire du projet", name: "body", widget: "markdown", hint: "Rédigez le texte, ajoutez des titres, des listes ou du texte en gras." }
+
+      # --- LIEN / BOUTON OPTIONNEL ---
+      - label: "Lien externe / Appel à l'action (Optionnel)"
+        name: "link"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Texte du bouton", name: "text", widget: "string", required: false }
+          - { label: "Adresse URL", name: "url", widget: "string", required: false }

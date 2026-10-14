@@ -1,0 +1,33 @@
+==================================================
+        NOTICES ET GUIDE POUR DIMITRI
+==================================================
+
+Bonjour Dimitri,
+
+Voici le dossier nettoyé et prêt à l'emploi pour le projet Site-INSITU.
+
+1. ARBORESCENCE DU DOSSIER :
+----------------------------
+Site-INSITU/
+├── admin/
+│   ├── config.yml        <-- Configuration Decap CMS / Netlify CMS
+│   └── index.html        <-- Interface du CMS (/admin)
+├── assets/
+│   ├── projets.json      <-- Base de données des projets (éditable via le CMS)
+│   ├── br_affiche_hd.webp
+│   └── br_anim_hd.mp4
+├── index.html            <-- Page principale du site
+├── .gitignore            <-- Ignorer les fichiers temporaires
+└── A-LIRE-Dimitri.txt    <-- Ce guide
+
+2. DÉPLOIEMENT & CMS :
+----------------------
+- Dépôt Git : Publie ce dossier directement sur ton dépôt GitHub (branche 'main').
+- Netlify : Connecte ton dépôt à Netlify.
+- Netlify Identity : Active "Netlify Identity" dans le panneau de configuration Netlify pour autoriser l'accès à /admin.
+- Git Gateway : Active le service "Git Gateway" dans Netlify (Settings > Identity > Services).
+
+L'interface d'administration sera désormais accessible directement à l'adresse :
+https://ton-site.netlify.app/admin/
+
+Si tu as la moindre question, n'hésite pas !
