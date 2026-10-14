@@ -1,0 +1,15 @@
+{
+  "projets": [
+    {
+      "annee": "2026",
+      "couleur_accent": "#F5ECE4",
+      "intro": "Le test ultime, jsuis fatiguer",
+      "pastille": "Projet client",
+      "title": "Test",
+      "tags": "identité visuel",
+      "id": "Test 01",
+      "image": "assets/og-image-1-.png",
+      "couleur_fond": "#F5ECE4"
+    }
+  ]
+}
