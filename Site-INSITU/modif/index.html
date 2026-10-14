@@ -486,22 +486,37 @@
 </script>
 
 <script>
-async function chargerEtInjecterProjets() {
+async function chargerProjetsDecap() {
   const grille = document.querySelector('#projets .grille');
   if (!grille) return;
 
+  // Remplace par ton nom d'utilisateur GitHub et le nom du dépôt
+  const USER_GITHUB = "dimitricouilleaux-star";
+  const REPO_GITHUB = "Site-INSITU";
+
   try {
-    // 1. Récupération du fichier global des projets ou de la liste des projets
-    const response = await fetch('./assets/projets.json');
-    if (!response.ok) return;
+    // 1. Récupération de la liste des fichiers créés par Decap CMS
+    const resList = await fetch(`https://api.github.com/repos/${USER_GITHUB}/${REPO_GITHUB}/contents/content/projets`);
+    if (!resList.ok) return;
 
-    const data = await response.json();
-    let projets = data.projets || [];
+    const fichiers = await resList.json();
+    const projets = [];
 
-    // 2. Tri par date : du plus récent au plus ancien
+    // 2. Charger le contenu de chaque fichier JSON
+    for (const f of fichiers) {
+      if (f.name.endsWith('.json')) {
+        const resData = await fetch(f.download_url);
+        if (resData.ok) {
+          const data = await resData.json();
+          projets.push(data);
+        }
+      }
+    }
+
+    // 3. Trier du plus récent au plus ancien
     projets.sort((a, b) => new Date(b.date || '2026-01-01') - new Date(a.date || '2026-01-01'));
 
-    // 3. Injection de chaque projet au DÉBUT de la grille (position 1, à gauche)
+    // 4. Injecter les cartes TOUT À GAUCHE (1re position) et ajouter leurs fiches
     projets.forEach(p => {
       const c = p.couleurs || {};
       const fond = c.fond || '#0F1417';
@@ -510,7 +525,7 @@ async function chargerEtInjecterProjets() {
       const accent2 = c.accent2 || '#6045F4';
       const cadre = c.cadre || '#161D21';
 
-      // --- HTML DE LA CARTE ---
+      // Carte (affichée côte à côte dans la grille)
       const carteHTML = `
         <button class="carte revele" 
                 data-projet="${p.id}" 
@@ -529,14 +544,14 @@ async function chargerEtInjecterProjets() {
           </div>
         </button>`;
 
-      // Placement tout en haut/à gauche de la grille
       grille.insertAdjacentHTML('afterbegin', carteHTML);
 
-      // --- HTML DE LA POP-UP / FICHE ---
+      // Galerie d'images dans la pop-up
       const galerieHTML = (p.gallery || [])
         .map(img => `<div class="bloc s6 anim"><img src="${img}" alt="${p.title}" loading="lazy"></div>`)
         .join('');
 
+      // Fiche Pop-up
       const ficheHTML = `
         <section class="fiche ${p.id}" 
                  id="fiche-${p.id}" 
@@ -569,16 +584,34 @@ async function chargerEtInjecterProjets() {
       document.body.insertAdjacentHTML('beforeend', ficheHTML);
     });
 
-    // 4. Réinitialiser les événements d'ouverture de pop-up pour les nouvelles cartes
-    if (typeof initModales === 'function') {
-      initModales();
-    }
   } catch (e) {
-    console.error("Erreur de chargement des projets CMS :", e);
+    console.error("Erreur chargement projets :", e);
   }
 }
 
-document.addEventListener('DOMContentLoaded', chargerEtInjecterProjets);
+// 5. Gestionnaire d'ouverture/fermeture des pop-ups dynamique
+document.addEventListener('click', (e) => {
+  const carte = e.target.closest('.carte[data-projet]');
+  if (carte) {
+    const id = carte.getAttribute('data-projet');
+    const fiche = document.getElementById(`fiche-${id}`);
+    if (fiche) {
+      fiche.classList.add('ouverte');
+      document.body.classList.add('bloque');
+    }
+  }
+
+  const btnFermer = e.target.closest('.fiche .fermer');
+  if (btnFermer) {
+    const fiche = btnFermer.closest('.fiche');
+    if (fiche) {
+      fiche.classList.remove('ouverte');
+      document.body.classList.remove('bloque');
+    }
+  }
+});
+
+document.addEventListener('DOMContentLoaded', chargerProjetsDecap);
 </script>
 
 
